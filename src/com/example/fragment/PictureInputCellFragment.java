@@ -1,5 +1,7 @@
 package com.example.fragment;
 
+import java.io.FileNotFoundException;
+
 import com.example.helloworld.R;
 
 import android.app.Activity;
@@ -79,7 +81,7 @@ public void onActivtyForResult(int requestCode,int resultCode,Intent data){
 		try{
 			Bitmap bmp = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData());
 			image.setImageBitmap(bmp);
-		}catch (Exception e) {
+			}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}

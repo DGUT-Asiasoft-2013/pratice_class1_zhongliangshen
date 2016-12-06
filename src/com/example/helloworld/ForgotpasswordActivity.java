@@ -3,11 +3,11 @@ package com.example.helloworld;
 import android.app.Activity;
 import android.os.Bundle;
 
-public class HelloworldActivity extends Activity{
+public class ForgotpasswordActivity extends Activity{
 @Override
 protected void onCreate(Bundle savedInstanceState) {
 	// TODO Auto-generated method stub
 	super.onCreate(savedInstanceState);
-	setContentView(R.layout.activity_helloworld);
+	setContentView(R.layout.activity_forgot_password);
 }
 }

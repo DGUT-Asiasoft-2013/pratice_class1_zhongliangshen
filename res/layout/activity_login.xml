@@ -1,20 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#1F5880">
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        >
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:scaleType="centerInside"
+            android:src="@drawable/logo" />
+
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text="Login Activity"
         android:textSize="30sp"
         android:gravity="center"
+        android:textStyle="bold"
+        android:padding="10dp"
         />
+    </LinearLayout>
+    
+    <fragment
+        android:id="@+id/account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        class="com.example.fragment.SimpleTextInputCellFragment"
+        tools:layout="@layout/fragment_input_simpletext" />
+    <fragment
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        class="com.example.fragment.SimpleTextInputCellFragment"
+        tools:layout="@layout/fragment_input_simpletext" />
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:weightSum="10"
+        android:orientation="horizontal">
+        
     <Button
         android:id="@+id/btn_1"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="50dp"
-        android:text="submit"
+        android:text="注册"
+        android:layout_weight="5"
         />
-</RelativeLayout>
+    <Button
+        android:id="@+id/btn_2"
+        android:layout_weight="5"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:text="登录"
+        />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/btn_forgot_password"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="忘记密码？"
+        android:layout_gravity="center"
+        android:textSize="15sp"
+        android:padding="5dp"
+        />
+</LinearLayout>

@@ -15,8 +15,7 @@
         android:text="项目名：" />
 <FrameLayout 
     android:layout_height="120dp"
-    android:layout_width="match_parent"
-    android:background="#cccccc">
+    android:layout_width="match_parent">
     <TextView 
         android:id="@+id/hint"
         android:layout_width="wrap_content"

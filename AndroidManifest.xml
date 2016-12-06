@@ -29,6 +29,12 @@
         <activity 
             android:name=".RegisterActivity"
             android:theme="@android:style/Theme.NoTitleBar"></activity>
+        <activity 
+            android:name=".HelloworldActivity"
+            android:theme="@android:style/Theme.NoTitleBar"></activity>
+        <activity 
+            android:name="ForgotpasswordActivity"
+            android:theme="@android:style/Theme.NoTitleBar"></activity>
     </application>
 
 </manifest>
