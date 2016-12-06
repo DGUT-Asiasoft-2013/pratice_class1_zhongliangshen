@@ -24,17 +24,13 @@
             </intent-filter>
         </activity>
         <activity 
-            android:name=".LoginActitvity"
-            android:theme="@android:style/Theme.NoTitleBar"></activity>
+            android:name=".LoginActitvity"></activity>
         <activity 
-            android:name=".RegisterActivity"
-            android:theme="@android:style/Theme.NoTitleBar"></activity>
+            android:name=".RegisterActivity"></activity>
         <activity 
-            android:name=".HelloworldActivity"
-            android:theme="@android:style/Theme.NoTitleBar"></activity>
+            android:name=".HelloworldActivity"></activity>
         <activity 
-            android:name="ForgotpasswordActivity"
-            android:theme="@android:style/Theme.NoTitleBar"></activity>
+            android:name="ForgotpasswordActivity"></activity>
     </application>
 
 </manifest>
