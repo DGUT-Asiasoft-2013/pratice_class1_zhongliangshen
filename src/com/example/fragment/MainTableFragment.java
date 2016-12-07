@@ -32,8 +32,9 @@ public class MainTableFragment extends Fragment{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent=new Intent(getActivity(),NewActivity.class);
+				Intent intent=new Intent( getActivity(),NewActivity.class);
 				startActivity(intent);
+				getActivity().overridePendingTransition(R.anim.slide_in_bottom, 0);
 			}
 		});
 		//将tab放到数组中
