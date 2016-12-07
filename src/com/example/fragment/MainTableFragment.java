@@ -1,11 +1,16 @@
 package com.example.fragment;
 
+import com.example.helloworld.HelloworldActivity;
+import com.example.helloworld.LoginActitvity;
+import com.example.helloworld.NewActivity;
 import com.example.helloworld.R;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 public class MainTableFragment extends Fragment{
@@ -22,6 +27,15 @@ public class MainTableFragment extends Fragment{
 		tabNotes = view.findViewById(R.id.tab_notes);
 		tabSearch = view.findViewById(R.id.tab_search);
 		tabMe = view.findViewById(R.id.tab_me);
+		btnNew.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent=new Intent(getActivity(),NewActivity.class);
+				startActivity(intent);
+			}
+		});
 		//将tab放到数组中
 		tabs = new View[] {
 				tabFeeds, tabNotes, tabSearch, tabMe
