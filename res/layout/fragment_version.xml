@@ -15,6 +15,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="2dp"
         android:text="APPNAME VER"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:textSize="9sp"/>
 </LinearLayout>

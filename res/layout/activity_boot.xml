@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="${relativePackage}.${activityClass}">
+    tools:context="${relativePackage}.${activityClass}"
+    android:background="@android:color/white">
 
     <TextView
         android:layout_width="wrap_content"
@@ -10,7 +11,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="64dp"
         android:text="东莞理工学院android实训"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:textSize="16sp"
         />
     
