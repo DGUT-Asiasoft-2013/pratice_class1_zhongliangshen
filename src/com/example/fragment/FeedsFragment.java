@@ -1,5 +1,7 @@
 package com.example.fragment; 
 
+import java.util.Random;
+
 import com.example.helloworld.FeedsActivity;
 import com.example.helloworld.R;
 import android.annotation.SuppressLint;
@@ -30,9 +32,12 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle sa
 		view=inflater.inflate(R.layout.fragment_table_view1, null);
 		feedlist=(ListView) view.findViewById(R.id.list);
 		feedlist.setAdapter(listAdapter);
-//		data=new String[]{
-//			
-//		}
+		Random rand = new Random();
+		data = new String[10+Math.abs(rand.nextInt()%20)];
+		
+		for(int i=0; i<data.length; i++){
+			data[i] = "THIS ROW IS "+rand.nextInt();
+}
 		feedlist.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -46,7 +51,7 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle sa
 	}
 public void onClick(int position) {
 	// TODO Auto-generated method stub
-	String text="THIS IS ROW "+position;
+	String text=data[position];
 	Intent intn=new Intent(getActivity(),FeedsActivity.class);
 	intn.putExtra("mytext", text.toString()); 
 	
@@ -56,17 +61,17 @@ BaseAdapter listAdapter=new BaseAdapter() {
 	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-			View view = null;
-			
-			if(convertView==null){
-				LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-				view = inflater.inflate(android.R.layout.simple_list_item_1, null);	
-			}else{
-				view = convertView;
-			}
-			
-			TextView text1 = (TextView) view.findViewById(android.R.id.text1);
-			text1.setText("THIS IS ROW "+position);
+		View view = null;
+		
+		if(convertView==null){
+			LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+			view = inflater.inflate(R.layout.listview, null);	
+		}else{
+			view = convertView;
+		}
+		
+		TextView text1 = (TextView) view.findViewById(R.id.text);
+		text1.setText(data[position]);
 		return view;
 	}
 	
@@ -79,7 +84,7 @@ BaseAdapter listAdapter=new BaseAdapter() {
 	@Override
 	public Object getItem(int position) {
 		// TODO Auto-generated method stub
-		return null;
+		return data[position];
 	}
 	
 	@Override

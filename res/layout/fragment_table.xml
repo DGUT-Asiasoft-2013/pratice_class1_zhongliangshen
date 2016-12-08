@@ -11,15 +11,15 @@
         android:id="@+id/tab_feeds"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:background="@drawable/tab_background"
+        android:gravity="center"
         android:orientation="vertical" 
         android:layout_weight="1">
 
         <ImageView 
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:src="@drawable/ic_launcher"/>
+            android:background="@drawable/home"/>
         <TextView 
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
@@ -29,15 +29,15 @@
         android:id="@+id/tab_notes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:background="@drawable/tab_background"
+        android:gravity="center"
         android:orientation="vertical" 
         android:layout_weight="1">
 
         <ImageView 
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:src="@drawable/ic_launcher"/>
+        android:background="@drawable/star"/>
         <TextView 
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
@@ -63,7 +63,7 @@
         <ImageView 
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:src="@drawable/ic_launcher"/>
+        android:background="@drawable/search"/>
         <TextView 
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
@@ -73,15 +73,15 @@
         android:id="@+id/tab_me"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:background="@drawable/tab_background"
+        android:gravity="center"
         android:orientation="vertical" 
         android:layout_weight="1">
 
         <ImageView 
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:src="@drawable/ic_launcher"/>
+        android:background="@drawable/contacts"/>
         <TextView 
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
