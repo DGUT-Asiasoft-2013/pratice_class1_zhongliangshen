@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.example.fragment.PictureInputCellFragment;
 import com.example.fragment.SimpleTextInputCellFragment;
 
+import android.R.fraction;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -80,19 +81,29 @@ public class RegisterActivity extends Activity{
 			Toast.makeText(RegisterActivity.this, "两次密码输入不相同，请重试" , Toast.LENGTH_LONG).show();
 			return;
 		}
+		password=MD5.getMD5(password);
+		
 
 		OkHttpClient client=new OkHttpClient();
-		MultipartBody requestBody=new MultipartBody.Builder()
+		
+		MultipartBody.Builder requestBodyBuilder = new MultipartBody.Builder()
 				.addFormDataPart("account", account)
 				.addFormDataPart("name", name)
 				.addFormDataPart("email", email)
-				.addFormDataPart("passwordHash", password)
-				.build();
+				.addFormDataPart("passwordHash", password);
+		
+		byte[] pngData = fragpictrueInputCellimage.getPngData();
+		if(pngData != null){
+			RequestBody pndDataBody = RequestBody.create(MediaType.parse("image/png"), pngData);
+			requestBodyBuilder.addFormDataPart("avatar", "avatar.png", pndDataBody);
+		}
+		
+		MultipartBody postBody = requestBodyBuilder.build();
 		okhttp3.Request Request=new okhttp3.Request.Builder()
 				//地址
 				.url("http://172.27.0.30:8080/membercenter/api/register")
 				.method("post",null)
-				.post(requestBody)
+				.post(postBody)
 				.build();
 		final ProgressDialog progressdialog=new ProgressDialog(RegisterActivity.this);
 		progressdialog.setMessage("注册中");

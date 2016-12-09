@@ -90,7 +90,7 @@ BaseAdapter listAdapter=new BaseAdapter() {
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return 20;
+		return data==null ? 0 : data.length;
 	}
 };
 }

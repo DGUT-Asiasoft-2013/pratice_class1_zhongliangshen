@@ -12,7 +12,7 @@
         android:id="@+id/label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="项目名：" />
+        android:text="头像：" />
 <FrameLayout 
     android:layout_height="120dp"
     android:layout_width="match_parent"
