@@ -14,7 +14,7 @@
     <fragment
         android:id="@+id/tab"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
         android:layout_gravity="bottom"
         class="com.example.fragment.MainTableFragment"
         tools:layout="@layout/fragment_table" />
