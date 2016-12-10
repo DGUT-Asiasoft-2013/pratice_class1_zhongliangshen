@@ -132,7 +132,7 @@ public class RegisterActivity extends Activity{
 			}
 
 			@Override
-			public void onFailure(Call arg0, IOException arg1) {
+			public void onFailure(final Call arg0, final IOException arg1) {
 				// TODO Auto-generated method stub
 				progressdialog.dismiss();
 				RegisterActivity.this.runOnUiThread(new Runnable() {
@@ -140,6 +140,7 @@ public class RegisterActivity extends Activity{
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
+						RegisterActivity.this.onFailure(arg0, arg1);
 					}
 				});
 			}
