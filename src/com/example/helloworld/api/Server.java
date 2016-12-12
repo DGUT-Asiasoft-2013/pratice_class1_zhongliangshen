@@ -20,9 +20,11 @@ public class Server {
 	public static OkHttpClient getSharedClient(){
 		return client;
 	}
-	public static Request.Builder requestBuilderWithApi(String api){
-		return new Request.Builder()
-				.url("http://172.27.0.30:8080/membercenter/api/"+api);
-	}
+	public static String serverAddress = "http://172.27.0.41:8080/membercenter/"; 
+		
+	 	public static Request.Builder requestBuilderWithApi(String api){
+	 		return new Request.Builder()
+	 		.url(serverAddress+"api"+api);
+	 	}
 
 }

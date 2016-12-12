@@ -31,11 +31,18 @@
             android:background="@android:color/darker_gray"
             />
     <EditText 
+        android:gravity="left|top"
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="标题"
+        />
+    <EditText 
          android:inputType="textMultiLine"
-         android:gravity="left|top"
-        android:id="@+id/edit"
+        android:id="@+id/article"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="left|top"
         android:hint="这一刻的想法。。。"
         />
     

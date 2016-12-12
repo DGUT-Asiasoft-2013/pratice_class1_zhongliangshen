@@ -78,7 +78,7 @@ public class LoginActitvity extends Activity{
 				.addFormDataPart("account", account)
 		        .addFormDataPart("passwordHash", password)
 		        .build();
-		okhttp3.Request Request=Server.requestBuilderWithApi("login")
+		okhttp3.Request Request=Server.requestBuilderWithApi("/login")
 				.method("post",null)
 				.post(request)
 				.build();

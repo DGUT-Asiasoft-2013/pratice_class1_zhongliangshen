@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.example.fragment.PictureInputCellFragment;
 import com.example.fragment.SimpleTextInputCellFragment;
+import com.example.helloworld.api.Server;
 
 import android.R.fraction;
 import android.app.Activity;
@@ -11,6 +12,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DownloadManager.Request;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
@@ -99,9 +101,7 @@ public class RegisterActivity extends Activity{
 		}
 		
 		MultipartBody postBody = requestBodyBuilder.build();
-		okhttp3.Request Request=new okhttp3.Request.Builder()
-				//地址
-				.url("http://172.27.0.30:8080/membercenter/api/register")
+		okhttp3.Request Request= Server.requestBuilderWithApi("/register")
 				.method("post",null)
 				.post(postBody)
 				.build();
@@ -115,14 +115,16 @@ public class RegisterActivity extends Activity{
 			@Override
 			public void onResponse(final Call arg0, final Response arg1) throws IOException {
 				// TODO Auto-generated method stub
-				progressdialog.dismiss();
+				
+				final String responseString = arg1.body().string();
 				RegisterActivity.this.runOnUiThread(new Runnable() {
 
 					@Override
 					public void run() {
-						// TODO Auto-generated method stub
+						progressdialog.dismiss();
+						
 						try{
-							RegisterActivity.this.onResponse(arg0,arg1.body().string());
+							RegisterActivity.this.onResponse(arg0,responseString);
 						}catch (Exception e) {
 							// TODO: handle exception
 							e.printStackTrace();
@@ -134,12 +136,12 @@ public class RegisterActivity extends Activity{
 			@Override
 			public void onFailure(final Call arg0, final IOException arg1) {
 				// TODO Auto-generated method stub
-				progressdialog.dismiss();
+				
 				RegisterActivity.this.runOnUiThread(new Runnable() {
 
 					@Override
 					public void run() {
-						// TODO Auto-generated method stub
+						progressdialog.dismiss();
 						RegisterActivity.this.onFailure(arg0, arg1);
 					}
 				});
@@ -151,7 +153,14 @@ public class RegisterActivity extends Activity{
 		new AlertDialog.Builder(RegisterActivity.this)
 		.setTitle("注册成功")
 		.setMessage(response)
-		.setPositiveButton("确认", null)
+		.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				finish();
+			}
+		})
 		.show();
 	}
 	void onFailure(Call arg0, IOException arg1){

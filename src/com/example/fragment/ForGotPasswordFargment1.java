@@ -7,12 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 
 public class ForGotPasswordFargment1 extends Fragment{
 	SimpleTextInputCellFragment fragInputCellemail;
 	View view;
-
+	String email;
 	@Override
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -21,6 +20,7 @@ public class ForGotPasswordFargment1 extends Fragment{
 			view=inflater.inflate(R.layout.fragment_forgot_password1, null)
 					;
 			fragInputCellemail=(SimpleTextInputCellFragment)getFragmentManager().findFragmentById(R.id.email);
+			email=fragInputCellemail.getText().toString();
 			view.findViewById(R.id.btn_1).setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -49,8 +49,16 @@ public class ForGotPasswordFargment1 extends Fragment{
 	}
 
 	void goNext(){
+		
 		if(onGoNextListener!=null){
 			onGoNextListener.onGoNext();
 		}
 	}
+
+	public String getText() {
+		// TODO Auto-generated method stub
+		return fragInputCellemail.getText();
+	}
+
+
 }

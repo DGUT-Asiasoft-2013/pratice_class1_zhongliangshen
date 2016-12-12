@@ -2,6 +2,7 @@ package com.example.fragment;
 
 import java.io.IOException;
 
+import com.example.helloworld.AvatarView;
 import com.example.helloworld.LoginActitvity;
 import com.example.helloworld.R;
 import com.example.helloworld.User;
@@ -24,6 +25,7 @@ import okhttp3.Response;
 public class MyFragment extends Fragment{
 	View view;
 	TextView text;
+	AvatarView avatar;
 	
 	@Override
 
@@ -32,6 +34,7 @@ public class MyFragment extends Fragment{
 		if(view==null){
 			view=inflater.inflate(R.layout.fragment_table_view4, null);
 			text=(TextView)view.findViewById(R.id.text);
+			avatar = (AvatarView) view.findViewById(R.id.avatar);
 		}
 		
 		return view;
@@ -42,7 +45,7 @@ public class MyFragment extends Fragment{
 		// TODO Auto-generated method stub
 		super.onResume();
 		OkHttpClient client=Server.getSharedClient();
-		okhttp3.Request Request=Server.requestBuilderWithApi("me")
+		okhttp3.Request Request=Server.requestBuilderWithApi("/me")
 				.method("GET",null)
 				.build();
 		client.newCall(Request).enqueue(new Callback() {
@@ -51,14 +54,13 @@ public class MyFragment extends Fragment{
 			public void onResponse(final Call arg0, final Response arg1) throws IOException {
 				// TODO Auto-generated method stub
 				try{
-					ObjectMapper opMapper =new ObjectMapper();
-					final User user= opMapper.readValue(arg1.body().string(), User.class);
+					final User user= new ObjectMapper().readValue(arg1.body().string(), User.class);
 					getActivity().runOnUiThread(new Runnable() {
 						
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-							MyFragment.this.onResponse(arg0, user.getAccount());
+							MyFragment.this.goResponse(arg0, user);
 						}
 
 						
@@ -70,7 +72,7 @@ public class MyFragment extends Fragment{
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-							onFailure(arg0, e);
+							MyFragment.this.goFailure(arg0, e);
 						}
 
 					});
@@ -85,21 +87,23 @@ public class MyFragment extends Fragment{
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
-						onFailure(arg0, arg1);
+						MyFragment.this.goFailure(arg0, arg1);
 					}
 				});
 			}
 		});
 	}
-	void onResponse(Call arg0, String response) {
+	void goResponse(Call arg0, User user) {
 		// TODO Auto-generated method stub
-		text.setText("hello  "+response);
+		avatar.load(user);
+		text.setText("hello  "+user.getName());
 		
 	}
-	void onFailure(Call arg0, Exception arg1) {
+	void goFailure(Call arg0, Exception arg1) {
 		// TODO Auto-generated method stub
 		new AlertDialog.Builder(getActivity())
-		.setMessage("数据解析出错")
+		.setTitle("数据解析出错")
+		.setMessage(arg1.getMessage())
 		.setPositiveButton("确认", null)
 		.show();
 	}
