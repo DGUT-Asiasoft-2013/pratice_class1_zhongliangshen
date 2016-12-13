@@ -134,8 +134,7 @@ public class ForgotpasswordActivity extends Activity{
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub
-				Intent intent=new Intent(ForgotpasswordActivity.this,LoginActitvity.class);
-				startActivity(intent);
+				finish();
 			}
 		})
 		.show();

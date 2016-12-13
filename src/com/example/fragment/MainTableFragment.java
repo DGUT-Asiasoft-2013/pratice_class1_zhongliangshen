@@ -84,4 +84,12 @@ public class MainTableFragment extends Fragment{
 	public void OnSelectedListener(OnSelectedListener OnSelectedListener){
 		this.OnSelectedListener = OnSelectedListener;
 	}
+	public int getSelectedIndex() {
+		// TODO Auto-generated method stub
+		for(int i=0;i<tabs.length;i++){
+			if(tabs[i].isSelected())
+				return i;
+		}
+		return -1;
+	}
 }

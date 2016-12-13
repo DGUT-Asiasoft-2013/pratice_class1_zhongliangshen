@@ -5,6 +5,8 @@ import java.io.IOException;
 import com.example.helloworld.api.Server;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -33,9 +35,7 @@ protected void onCreate(Bundle savedInstanceState) {
 		@Override
 		public void onClick(View v) {
 			clicked();
-			// TODO Auto-generated method stub
-//			finish();
-//			overridePendingTransition(R.anim.slide_out_bottom,0);
+			
 		}
 	});
 }
@@ -59,19 +59,21 @@ void clicked(){
 		@Override
 		public void onResponse(final Call arg0, final Response arg1) throws IOException {
 			// TODO Auto-generated method stub
-			NewActivity.this.runOnUiThread(new Runnable() {
-				
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					try{
-						Toast.makeText(NewActivity.this, arg1.body().string() , Toast.LENGTH_LONG).show();
-					}catch (Exception e) {
-						// TODO: handle exception
-						e.printStackTrace();
+			try{
+				final String arg = arg1.body().string();
+				NewActivity.this.runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+							NewActivity.this.onResponse(arg0,arg);
 					}
-				}
-			});
+				});
+			}catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			
 		}
 		
 		@Override
@@ -87,5 +89,20 @@ void clicked(){
 			});
 		}
 	});
+}
+protected void onResponse(Call arg0, String response) {
+	// TODO Auto-generated method stub
+	new AlertDialog.Builder(NewActivity.this)
+	.setMessage(response)
+	.setPositiveButton("х╥хо",new DialogInterface.OnClickListener() {
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			// TODO Auto-generated method stub
+			finish();
+			overridePendingTransition(R.anim.slide_out_bottom,0);
+		}
+	})
+	.show();
+	
 }
 }

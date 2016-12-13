@@ -3,6 +3,8 @@ package com.example.helloworld;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
+import com.example.helloworld.api.Server;
+
 import android.app.Activity;
 import android.app.DownloadManager.Request;
 import android.content.Intent;
@@ -28,9 +30,7 @@ public class BootActivity extends Activity {
 		super.onResume();
 		//新建客户端
 		OkHttpClient client=new OkHttpClient();
-		okhttp3.Request Request=new okhttp3.Request.Builder()
-				//地址
-				.url("http://172.27.0.30:8080/membercenter/api/hello")
+		okhttp3.Request Request=Server.requestBuilderWithApi("/hello")
 				.method("get", null)
 				.build();
 		

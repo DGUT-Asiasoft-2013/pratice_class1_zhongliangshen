@@ -3,7 +3,6 @@ package com.example.fragment;
 import java.io.IOException;
 
 import com.example.helloworld.AvatarView;
-import com.example.helloworld.LoginActitvity;
 import com.example.helloworld.R;
 import com.example.helloworld.User;
 import com.example.helloworld.api.Server;
@@ -15,7 +14,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -26,7 +24,7 @@ public class MyFragment extends Fragment{
 	View view;
 	TextView text;
 	AvatarView avatar;
-	
+
 	@Override
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,9 +34,9 @@ public class MyFragment extends Fragment{
 			text=(TextView)view.findViewById(R.id.text);
 			avatar = (AvatarView) view.findViewById(R.id.avatar);
 		}
-		
+
 		return view;
-		
+
 	}
 	@Override
 	public void onResume() {
@@ -49,26 +47,26 @@ public class MyFragment extends Fragment{
 				.method("GET",null)
 				.build();
 		client.newCall(Request).enqueue(new Callback() {
-			
+
 			@Override
 			public void onResponse(final Call arg0, final Response arg1) throws IOException {
 				// TODO Auto-generated method stub
 				try{
 					final User user= new ObjectMapper().readValue(arg1.body().string(), User.class);
 					getActivity().runOnUiThread(new Runnable() {
-						
+
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
 							MyFragment.this.goResponse(arg0, user);
 						}
 
-						
+
 					});
 				}catch (final IOException e) {
 					// TODO: handle exception
 					getActivity().runOnUiThread(new Runnable() {
-						
+
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
@@ -78,12 +76,12 @@ public class MyFragment extends Fragment{
 					});
 				}
 			}
-			
+
 			@Override
 			public void onFailure(final Call arg0, final IOException arg1) {
 				// TODO Auto-generated method stub
 				getActivity().runOnUiThread(new Runnable() {
-					
+
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
@@ -97,7 +95,7 @@ public class MyFragment extends Fragment{
 		// TODO Auto-generated method stub
 		avatar.load(user);
 		text.setText("hello  "+user.getName());
-		
+
 	}
 	void goFailure(Call arg0, Exception arg1) {
 		// TODO Auto-generated method stub

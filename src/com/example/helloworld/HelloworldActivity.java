@@ -35,7 +35,9 @@ protected void onCreate(Bundle savedInstanceState) {
 }
 public void onResume(){
 	super.onResume();
+	if (tab.getSelectedIndex()<0){
 	tab.setSelectedItem(0);
+	}
 }
    void onChange(int index) {
 	// TODO Auto-generated method stub
