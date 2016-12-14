@@ -37,6 +37,7 @@ public class FeedsFragment extends Fragment{
 	int page=0;
 	View btnLoadMore;
 	TextView textLoadMore;
+	
 
 	@SuppressLint("InflateParams")
 	@Override
@@ -127,12 +128,13 @@ public class FeedsFragment extends Fragment{
 	}
 	void onClick(int position) {
 		// TODO Auto-generated method stub
-		Article text= data.get(position);
+		Article article= data.get(position);
 		Intent intn=new Intent(getActivity(),FeedsActivity.class);
-		intn.putExtra("text", text.getText()); 
-		intn.putExtra("title", text.getTitle());
-		intn.putExtra("authoravatar", text.getGetAuthorAvatar());
-		intn.putExtra("authorname", text.getGetAuthorName());
+		intn.putExtra("text", article.getText()); 
+		intn.putExtra("title", article.getTitle());
+		intn.putExtra("authoravatar", article.getGetAuthorAvatar());
+		intn.putExtra("authorname", article.getGetAuthorName());
+		intn.putExtra("article_id",article.getId());
 
 		startActivity(intn);
 	}
@@ -209,6 +211,7 @@ public class FeedsFragment extends Fragment{
 			String dateStr=DateFormat.format("yyyy-mm-dd hh:mm", article.getCreateDate()).toString();
 			textDate.setText(dateStr);
 			textTitle.setText(article.getGetAuthorName()+":"+article.getTitle());
+			
 
 			return view;
 		}

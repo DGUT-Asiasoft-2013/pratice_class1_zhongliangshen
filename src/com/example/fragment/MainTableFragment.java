@@ -16,19 +16,19 @@ import android.view.ViewGroup;
 public class MainTableFragment extends Fragment{
 	View btnNew, tabFeeds, tabNotes, tabSearch, tabMe;
 	View[] tabs;
-	
+
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_table, null);
-		
+
 		btnNew = view.findViewById(R.id.btn_new);
 		tabFeeds = view.findViewById(R.id.tab_feeds);
 		tabNotes = view.findViewById(R.id.tab_notes);
 		tabSearch = view.findViewById(R.id.tab_search);
 		tabMe = view.findViewById(R.id.tab_me);
 		btnNew.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -44,14 +44,14 @@ public class MainTableFragment extends Fragment{
 		//循环遍历数组，为每个tab设置监听器
 		for(final View tab : tabs){
 			tab.setOnClickListener(new View.OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
 					onTabClicked(tab);
 				}
 			});			
 		}
-		
+
 		return view;
 	}
 	//循环遍历数组，tab被点击时显示为selected
@@ -65,22 +65,22 @@ public class MainTableFragment extends Fragment{
 			}else{
 				otherTab.setSelected(false);
 			}
-			}
+		}
 		if(OnSelectedListener!=null && selectedIndex>=0){
 			OnSelectedListener.OnGoTabClicked(selectedIndex);
-			}
 		}
+	}
 	public void setSelectedItem(int index){
 		if(index>=0 && index<tabs.length){
 			onTabClicked(tabs[index]);
-			}
 		}
+	}
 	//定義接口
 	public static interface OnSelectedListener{
 		void OnGoTabClicked(int index);
 	}
 	OnSelectedListener OnSelectedListener;
-	
+
 	public void OnSelectedListener(OnSelectedListener OnSelectedListener){
 		this.OnSelectedListener = OnSelectedListener;
 	}

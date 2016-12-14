@@ -39,6 +39,8 @@
             android:name=".FeedsActivity"></activity>
         <activity 
             android:name=".NewActivity"></activity>
+        <activity 
+            android:name=".CommentActivity"></activity>
     </application>
 
 </manifest>

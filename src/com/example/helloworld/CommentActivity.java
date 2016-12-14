@@ -7,11 +7,9 @@ import com.example.helloworld.api.Server;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import okhttp3.Call;
@@ -20,16 +18,15 @@ import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
 
-public class NewActivity extends Activity{
-	EditText title;
-	EditText article;
+public class CommentActivity extends Activity{
+	EditText comment;
 	@Override
+
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_new);
-		title=(EditText)findViewById(R.id.title);
-		article=(EditText)findViewById(R.id.article);
+		setContentView(R.layout.activity_comment);
+		comment=(EditText)findViewById(R.id.edit_comment);
 		findViewById(R.id.btn).setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -38,17 +35,15 @@ public class NewActivity extends Activity{
 			}
 		});
 	}
-	void clicked(){
-		String title=NewActivity.this.title.getText().toString();
-		String article=NewActivity.this.article.getText().toString();
-
+	void clicked() {
+		// TODO Auto-generated method stub
+		String text=CommentActivity.this.comment.getText().toString();
+		Integer article_id=(Integer) getIntent().getExtras().get("data");
 		OkHttpClient client=Server.getSharedClient();
 		MultipartBody request=new MultipartBody.Builder()
-				.addFormDataPart("title", title)
-				.addFormDataPart("text", article)
+				.addFormDataPart("text", text)
 				.build();
-
-		okhttp3.Request Request=Server.requestBuilderWithApi("/article")
+		okhttp3.Request Request=Server.requestBuilderWithApi("/article/"+article_id+"/comments")
 				.method("post",null)
 				.post(request)
 				.build();
@@ -56,42 +51,35 @@ public class NewActivity extends Activity{
 		client.newCall(Request).enqueue(new Callback() {
 
 			@Override
-			public void onResponse(final Call arg0, final Response arg1) throws IOException {
+			public void onResponse(final Call arg0, Response arg1) throws IOException {
 				// TODO Auto-generated method stub
 				try{
 					final String arg = arg1.body().string();
-					NewActivity.this.runOnUiThread(new Runnable() {
+					CommentActivity.this.runOnUiThread(new Runnable() {
 
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-							NewActivity.this.onResponse(arg0,arg);
+							CommentActivity.this.onResponse(arg0,arg);
 						}
 					});
 				}catch (Exception e) {
 					// TODO: handle exception
 					e.printStackTrace();
 				}
-
 			}
 
 			@Override
-			public void onFailure(Call arg0, final IOException arg1) {
+			public void onFailure(Call arg0, IOException arg1) {
 				// TODO Auto-generated method stub
-				NewActivity.this.runOnUiThread(new Runnable() {
-
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						Toast.makeText(NewActivity.this, arg1.getLocalizedMessage() , Toast.LENGTH_LONG).show();
-					}
-				});
+				Toast.makeText(CommentActivity.this, arg1.getLocalizedMessage() , Toast.LENGTH_LONG).show();
 			}
 		});
+
 	}
-	protected void onResponse(Call arg0, String response) {
+	void onResponse(Call arg0, String response) {
 		// TODO Auto-generated method stub
-		new AlertDialog.Builder(NewActivity.this)
+		new AlertDialog.Builder(CommentActivity.this)
 		.setMessage(response)
 		.setPositiveButton("х╥хо",new DialogInterface.OnClickListener() {
 			@Override
@@ -102,6 +90,6 @@ public class NewActivity extends Activity{
 			}
 		})
 		.show();
-
 	}
+
 }
