@@ -193,8 +193,6 @@ public class NotesFragment extends Fragment{
 			String dateStr=DateFormat.format("yyyy-mm-dd hh:mm", comment.getCreateDate()).toString();
 			textDate.setText(dateStr);
 			avatar.load(Server.serverAddress+comment.getAuthor().getAvatar());
-			
-
 			return view;
 		}
 
