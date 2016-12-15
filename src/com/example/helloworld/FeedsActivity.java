@@ -12,8 +12,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Button;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MultipartBody;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -33,9 +36,9 @@ public class FeedsActivity extends Activity{
 	TextView name;
 	AvatarView avatar;
 	Button btn_comment;
-	Button btn_like;
+	Button btnLikes;
 	Integer article_id;
-	
+
 	ListView feedlist;
 	List<Comment> data;
 	int page=0;
@@ -46,17 +49,17 @@ public class FeedsActivity extends Activity{
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_feeds);
-		
+
 		text=(TextView)findViewById(R.id.text);
 		title=(TextView)findViewById(R.id.title);
 		name=(TextView)findViewById(R.id.name);
 		btn_comment=(Button) findViewById(R.id.btn_comment);
-		btn_like=(Button) findViewById(R.id.btn_like);
+		btnLikes=(Button) findViewById(R.id.btn_like);
 		avatar=(AvatarView) findViewById(R.id.avatar);
-		
+
 		btnLoadMore= LayoutInflater.from(this).inflate(R.layout.load_more_btn, null);
 		textLoadMore=(TextView) btnLoadMore.findViewById(R.id.text);
-		
+
 		String text1=(String) getIntent().getExtras().get("text");
 		text.setText(text1);
 		String title1=(String) getIntent().getExtras().get("title");
@@ -73,15 +76,15 @@ public class FeedsActivity extends Activity{
 				onClicked();
 			}
 		});
-		btn_like.setOnClickListener(new OnClickListener() {
-			
+		btnLikes.setOnClickListener(new OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				isLiked();
+				toggleLikes();
 			}
 		});
-		
+
 		feedlist=(ListView)findViewById(R.id.list);
 		feedlist.addFooterView(btnLoadMore);
 		feedlist.setAdapter(listAdapter);
@@ -94,62 +97,62 @@ public class FeedsActivity extends Activity{
 				loadMore();
 			}
 		});
-		
+
 	}
 
-	 void loadMore() {
+	void loadMore() {
 		// TODO Auto-generated method stub
-		 btnLoadMore.setEnabled(false);
-			textLoadMore.setText("载入中...");
+		btnLoadMore.setEnabled(false);
+		textLoadMore.setText("载入中...");
 
-			Request request=Server.requestBuilderWithApi("/article/"+article_id+"/comment/"+(page+1))
-					.get()
-					.build();
-			Server.getSharedClient().newCall(request).enqueue(new Callback() {
+		Request request=Server.requestBuilderWithApi("/article/"+article_id+"/comment/"+(page+1))
+				.get()
+				.build();
+		Server.getSharedClient().newCall(request).enqueue(new Callback() {
 
-				@Override
-				public void onResponse(Call arg0, Response arg1) throws IOException {
-					// TODO Auto-generated method stub
-					runOnUiThread(new Runnable() {
+			@Override
+			public void onResponse(Call arg0, Response arg1) throws IOException {
+				// TODO Auto-generated method stub
+				runOnUiThread(new Runnable() {
 
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							btnLoadMore.setEnabled(true);
-							textLoadMore.setText("加载更多");
-						}
-					});
-					try{
-						Page<Comment> comments=new ObjectMapper().readValue(arg1.body().string(), new TypeReference<Page<Comment>>(){});
-						if(comments.getNumber()>page){
-							if(data==null){
-								data=comments.getContent();
-							}else{
-								data.addAll(comments.getContent());
-							}
-							page=comments.getNumber();
-
-							runOnUiThread(new Runnable() {
-
-								@Override
-								public void run() {
-									// TODO Auto-generated method stub
-									listAdapter.notifyDataSetInvalidated();
-								}
-							});
-						}
-					}catch (Exception e) {
-						// TODO: handle exception
-						e.printStackTrace();
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						btnLoadMore.setEnabled(true);
+						textLoadMore.setText("加载更多");
 					}
-				}
+				});
+				try{
+					Page<Comment> comments=new ObjectMapper().readValue(arg1.body().string(), new TypeReference<Page<Comment>>(){});
+					if(comments.getNumber()>page){
+						if(data==null){
+							data=comments.getContent();
+						}else{
+							data.addAll(comments.getContent());
+						}
+						page=comments.getNumber();
 
-				@Override
-				public void onFailure(Call arg0, IOException arg1) {
-					// TODO Auto-generated method stub
+						runOnUiThread(new Runnable() {
 
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								listAdapter.notifyDataSetInvalidated();
+							}
+						});
+					}
+				}catch (Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
 				}
-			});
+			}
+
+			@Override
+			public void onFailure(Call arg0, IOException arg1) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 	}
 
 	void onClicked() {
@@ -164,7 +167,7 @@ public class FeedsActivity extends Activity{
 				.get()
 				.build();
 	}
-	
+
 	BaseAdapter listAdapter=new BaseAdapter() {
 
 		@Override
@@ -180,7 +183,7 @@ public class FeedsActivity extends Activity{
 			TextView text = (TextView) view.findViewById(R.id.title);
 			TextView textDate = (TextView) view.findViewById(R.id.date);
 			AvatarView avatar=(AvatarView) view.findViewById(R.id.avatar);
-			
+
 			Comment comment =data.get(position);
 			text.setText(comment.getAuthor().getName()+":"+comment.getText());
 			String dateStr=DateFormat.format("yyyy-mm-dd hh:mm", comment.getCreateDate()).toString();
@@ -215,6 +218,10 @@ public class FeedsActivity extends Activity{
 		reload();
 	}
 	void reload(){
+
+		reloadLikes();
+		checkLiked();
+
 		Request request =Server.requestBuilderWithApi("/article/"+article_id+"/comment")
 				.get()
 				.build();
@@ -258,6 +265,142 @@ public class FeedsActivity extends Activity{
 			public void onFailure(Call arg0, IOException arg1) {
 				// TODO Auto-generated method stub
 
+			}
+		});
+	}
+
+	private boolean isLiked;
+
+	void checkLiked(){
+		Request request = Server.requestBuilderWithApi("/article/"+article_id+"/isliked").get().build();
+		Server.getSharedClient().newCall(request).enqueue(new Callback() {
+			@Override
+			public void onResponse(Call arg0, Response arg1) throws IOException {
+				try{
+					final String responseString = arg1.body().string();
+					final Boolean result = new ObjectMapper().readValue(responseString, Boolean.class);
+
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							onCheckLikedResult(result);
+						}
+					});
+				}catch(final Exception e){
+					e.printStackTrace();
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							onCheckLikedResult(false);
+						}
+					});
+				}
+			}
+
+			@Override
+			public void onFailure(Call arg0, IOException e) {
+				e.printStackTrace();
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						onCheckLikedResult(false);
+					}
+				});				
+			}
+		});
+	}
+
+	void onCheckLikedResult(boolean result){
+		isLiked = result;
+		btnLikes.setTextColor(result ? Color.BLUE : Color.BLACK);
+	}
+
+	void reloadLikes(){
+		Request request = Server.requestBuilderWithApi("/article/"+article_id+"/likes")
+				.get().build();
+
+		Server.getSharedClient().newCall(request).enqueue(new Callback() {
+
+			@Override
+			public void onResponse(Call arg0, Response arg1) throws IOException {
+				try{
+					String responseString = arg1.body().string();
+					final Integer count = new ObjectMapper().readValue(responseString, Integer.class);
+
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							onReloadLikesResult(count);
+						}
+					});
+				}catch (Exception e) {
+					e.printStackTrace();
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							onReloadLikesResult(0);
+						}
+					});
+				}
+			}
+
+			@Override
+			public void onFailure(Call arg0, IOException e) {
+				e.printStackTrace();
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						onReloadLikesResult(0);
+					}
+				});
+			}
+		});
+	}
+
+	void onReloadLikesResult(int count){
+		if(count>0){
+			btnLikes.setText("赞("+count+")");
+		}else{
+			btnLikes.setText("赞");
+		}
+	}
+
+	void toggleLikes(){
+		MultipartBody body = new MultipartBody.Builder()
+				.addFormDataPart("likes", String.valueOf(!isLiked))
+				.build(); 
+
+		Request request = Server.requestBuilderWithApi("/article/"+article_id+"/likes")
+				.post(body).build();
+
+		Server.getSharedClient().newCall(request).enqueue(new Callback() {
+
+			@Override
+			public void onResponse(Call arg0, Response arg1) throws IOException {
+				
+				try{
+					Log.d("responseBody", arg1.body().string());
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				runOnUiThread(new Runnable() {
+					public void run() {
+						
+						
+						
+						reload();
+					}
+				});
+			}
+
+			@Override
+			public void onFailure(Call arg0, IOException arg1) {
+				runOnUiThread(new Runnable() {
+					public void run() {
+						reload();
+					}
+				});
 			}
 		});
 	}

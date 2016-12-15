@@ -32,7 +32,8 @@
         <activity 
             android:name=".RegisterActivity"></activity>
         <activity 
-            android:name=".HelloworldActivity"></activity>
+            android:name=".HelloworldActivity"
+             android:windowSoftInputMode="adjustPan" ></activity>
         <activity 
             android:name=".ForgotpasswordActivity"></activity>
         <activity 
